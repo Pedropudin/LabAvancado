@@ -4,30 +4,19 @@ from scipy import stats
 from scipy import constants
 import numpy as np
 
-def main():
-    return 0
-
 def getData_pandas(file_path):
     data = pd.read_csv(file_path)
     return data
 
 def getData_list(file_path):
     data = getData_pandas(file_path)
-    x = data[data.columns[0]].tolist()
-    y = data[data.columns[1]].tolist()
-    z = data[data.columns[2]].tolist()
-    w = data[data.columns[3]].tolist()
-
-    return x,y,z,w
+    columnNumber = len(data.columns)
+    return [data[data.columns[i]].tolist() for i in range(columnNumber)]
 
 def getData_array(file_path):
     data = getData_pandas(file_path)
-    x = data[data.columns[0]].to_numpy()
-    y = data[data.columns[1]].to_numpy()
-    z = data[data.columns[2]].to_numpy()
-    w = data[data.columns[3]].to_numpy()
-
-    return x,y,z,w
+    columnNumber = len(data.columns)
+    return [data[data.columns[i]].to_numpy() for i in range(columnNumber)]
 
 def listFromFunction(func,start,end):
     """Retorna pontos em x e y para a função dada"""
@@ -53,6 +42,10 @@ def showGraph():
     plt.legend()
     plt.show()
 
+    return
+
+def clearGraph():
+    plt.clf()
     return
 
 def plotList_line(graph, x, y, label = "", colorName = ""):
@@ -125,8 +118,5 @@ def linearRegression(x,y):
     slope, intercept, r, p, std_err = stats.linregress(x, y)
 
     return intercept, slope, std_err
-
-#if __name__ == '__main__':
-#    main()
 
 #y = 0.0084145 + 0.1644x

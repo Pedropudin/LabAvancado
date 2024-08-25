@@ -1,10 +1,15 @@
 from plot import *
 
-def graphCalibracao():
-    #Pegando Dados
+def _getData():
     corrente, campo = getData_list("calibracao.csv")
 
-    c_linear, c_angular, _ = linearRegression(corrente,campo)
+    c_linear, c_angular, desvio = linearRegression(corrente,campo)
+
+    return corrente, campo, c_linear, c_angular, desvio
+
+def graphCalibracao():
+    #Pegando Dados
+    corrente, campo, c_linear, c_angular, desvio = _getData()
 
     #Plotando
     g = createGraph()
@@ -14,16 +19,17 @@ def graphCalibracao():
 
     graphGrid(g)
 
-    saveGraph("grafico-calibracao.png")
+    return g
 
-    showGraph()
-
-    return
-
-def coeficientCalibracao():
-    #Pegando Dados
-    corrente, campo = getData_list("calibracao.csv")
-
-    c_linear, c_angular, _ = linearRegression(corrente,campo)
-
+def coeficientesCalibracao():
+    corrente, campo, c_linear, c_angular, desvio = _getData()
     return c_linear, c_angular
+
+def funcaoCalibracao():
+    """Retorna a função que transforma o valor da corrente no campo magnético do eletroíma"""
+    corrente, campo, c_linear, c_angular, _ = _getData()
+
+    def f(x):
+        return c_angular*x
+
+    return f
