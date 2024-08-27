@@ -8,7 +8,7 @@ germanio_p = {"corrente":30.3e-3,"espessura":18e-6}
 germanio_n = {"corrente":30e-3,"espessura":18e-6}
 
 def _getData(element:int):
-    corrente,tensao = getData_array(f"hall-{elementsDict[element]}.csv")
+    corrente,tensao = getData_array(f"Dados/hall-{elementsDictHall[element]}.csv")
     fatorCalibracao = funcaoCalibracao()
 
     campo = fatorCalibracao(corrente)

@@ -1,7 +1,7 @@
 from plot import *
 
 def _getData():
-    corrente, campo = getData_list("calibracao.csv")
+    corrente, campo = getData_list("Dados/calibracao.csv")
 
     c_linear, c_angular, desvio = linearRegression(corrente,campo)
 
