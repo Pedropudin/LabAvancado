@@ -1,5 +1,5 @@
 from calibracao import *
-from concentracao import *
+from hall import *
 
 def printStart():
     print("Qual prática?")
@@ -20,7 +20,7 @@ def printCalibracao():
 def printHall():
     print("O que você quer sobre o experimento do efeito hall?")
     print("1 - Ver gráficos (Tensão Hall em função do campo Magnético)")
-    print("2 - Salver os gráficos")
+    print("2 - Salvar os gráficos")
     print("3 - Ver os coeficientes Hall e a densidade de portadores")
     x = int(input())
     return x
@@ -53,7 +53,45 @@ def calibracao(task:int):
 
     return 0
 
+def chooseElement(exp:int) -> int:
+    match exp:
+        case 2:
+            print("1 - Cobre")
+            print("2 - Zinco")
+            print("3 - Germânio-p")
+            print("4 - Germânio-n")
+        case 3:
+            print("1 - Cobre")
+            print("2 - Germânio Intrinseco")
+            print("3 - Germânio-p")
+            print("4 - Germânio-n")
+    return int(input())
+
 def hall(task:int):
+    match task:
+        case 1:
+            print("Esse experimento envolve múltiplos elementos, qual você gostaria de analisar?")
+            ele = chooseElement(2)
+            g = graphHall(ele)
+            graphTitle(g,f"Efeito Hall - {elementsDict[ele]}")
+            showGraph()
+            clearGraph()
+        case 2:
+            print("Esse experimento envolve múltiplos elementos, qual você gostaria de analisar?")
+            ele = chooseElement(2)
+            g = graphHall(ele)
+            graphTitle(g,f"Efeito Hall - {elementsDict[ele]}")
+            print(f"Qual o nome? (Deixar vazio coloca \"grafico-hall-{elementsDict[ele]}.png\")")
+            name = input()
+            if name == "":
+                saveGraph("grafico-hall-{elementsDict[ele]}.png")
+            else:
+                saveGraph(name)
+            clearGraph()
+        case 3:
+            for i in range(1,5):
+                R,n = hallData(i)
+                print(f"{elementsDict[i]}:\n\tCoeficiente Hall:{R}; Densidade de Portadores:{n}")
     return 0
 
 def main():
@@ -65,6 +103,7 @@ def main():
             calibracao(task)
         case 2:
             task = printHall()
+            hall(task)
         case 3:
             task = printCondutividade()
 

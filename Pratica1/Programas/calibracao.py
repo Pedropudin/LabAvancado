@@ -8,10 +8,8 @@ def _getData():
     return corrente, campo, c_linear, c_angular, desvio
 
 def graphCalibracao():
-    #Pegando Dados
     corrente, campo, c_linear, c_angular, desvio = _getData()
 
-    #Plotando
     g = createGraph()
     plotList_points_regression(g,corrente,campo)
 
@@ -30,6 +28,6 @@ def funcaoCalibracao():
     corrente, campo, c_linear, c_angular, _ = _getData()
 
     def f(x):
-        return c_angular*x
+            return c_angular*x
 
     return f

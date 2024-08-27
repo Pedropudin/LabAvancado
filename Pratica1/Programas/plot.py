@@ -73,6 +73,7 @@ def plotList_points(graph, x, y, label = "", colorName = ""):
     return 
 
 def plotList_points_regression(graph, x,y):
+    """Plota os pontos fornecidos e a melhor reta entre eles"""
 
     c_linear, c_angular, desvio = linearRegression(x,y)
 
@@ -82,7 +83,7 @@ def plotList_points_regression(graph, x,y):
     xLine, yLine = listFromFunction(f,x[0],x[-1])
 
     plotList_points(graph,x,y,"Data","red")
-    plotList_line(graph,xLine, yLine,f"{round(c_linear,3)}+{round(c_angular,3)}x","blue")
+    plotList_line(graph,xLine, yLine,f"{c_linear}+{c_angular}x","blue")
 
     return
 
@@ -110,10 +111,6 @@ def linearRegression(x,y):
         Coeficiente angular,
         Coeficiente linear
         Desvio Médio"""
-
-    if(type(x) != list or type(y) != list):
-        print("Erro: Os dois elementos devem ser listas!")
-        exit
     
     slope, intercept, r, p, std_err = stats.linregress(x, y)
 
