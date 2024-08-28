@@ -1,11 +1,6 @@
-from plot import *
 from calibracao import *
 
-elementsDict = {1:"Cobre",2:"Zinco",3:"Germanio-p",4:"Germanio-n"}
-cobre = {"corrente":12,"espessura":18e-6} #Qual a corrente aqui mesmo? (e no debaixo)
-zinco = {"corrente":12,"espessura":25e-6}
-germanio_p = {"corrente":30.3e-3,"espessura":18e-6}
-germanio_n = {"corrente":30e-3,"espessura":18e-6}
+elementsDictHall = {1:"Cobre",2:"Zinco",3:"Germanio-p",4:"Germanio-n"}
 
 def _getData(element:int):
     corrente,tensao = getData_array(f"Dados/hall-{elementsDictHall[element]}.csv")

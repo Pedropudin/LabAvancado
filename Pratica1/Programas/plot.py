@@ -3,6 +3,7 @@ import pandas as pd
 from scipy import stats
 from scipy import constants
 import numpy as np
+from elementos import *
 
 def getData_pandas(file_path):
     data = pd.read_csv(file_path)
@@ -83,7 +84,7 @@ def plotList_points_regression(graph, x,y):
     xLine, yLine = listFromFunction(f,x[0],x[-1])
 
     plotList_points(graph,x,y,"Data","red")
-    plotList_line(graph,xLine, yLine,f"{c_linear}+{c_angular}x","blue")
+    plotList_line(graph,xLine, yLine,f"{c_linear:.2e}+{c_angular:.2e}x","blue")
 
     return
 
