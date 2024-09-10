@@ -101,6 +101,7 @@ def axisNames(graph, xName, yName):
 
 def graphGrid(graph):
     graph[1].grid(True,"major","both")
+    graph[1].xaxis.get_gridlines()[1].set_linewidth(2.5) # Não funciona (pra variar)
 
     return
 

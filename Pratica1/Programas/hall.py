@@ -17,7 +17,7 @@ def _coeficienteHall(I:float,cAngular:float,l:float):
 
 def _densidadePortadores(I:float,cAngular:float,l:float):
     R = _coeficienteHall(I,cAngular,l)
-    return -constants.e/R
+    return constants.e/R
 
 def graphHall(element:int):
     campo, tensao, c_linear, c_angular, desvio = _getData(element)
