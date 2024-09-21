@@ -4,6 +4,7 @@ elementsDictHall = {1:"Cobre",2:"Zinco",3:"Germanio-p",4:"Germanio-n"}
 
 def _getData(element:int):
     corrente,tensao = getData_array(f"Dados/hall-{elementsDictHall[element]}.csv")
+    tensao = -1*tensao # A gente mediu ao contrário
     fatorCalibracao = funcaoCalibracao()
 
     campo = fatorCalibracao(corrente)

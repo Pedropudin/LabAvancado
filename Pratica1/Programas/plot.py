@@ -35,6 +35,7 @@ def createGraph():
     return [fig,ax]
 
 def saveGraph(name):
+    plt.legend()
     plt.savefig(name)
 
     return
@@ -101,8 +102,6 @@ def axisNames(graph, xName, yName):
 
 def graphGrid(graph):
     graph[1].grid(True,"major","both")
-    graph[1].xaxis.get_gridlines()[1].set_linewidth(2.5) # Não funciona (pra variar)
-
     return
 
 def linearRegression(x,y):

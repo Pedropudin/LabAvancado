@@ -30,10 +30,24 @@ def _getCondutividadeOhm(element:int, U:float, I:float):
 def a(element):
     Iohm, Vohm, R, T, V, I = _getData(element)
 
-    x = T.tolist()
+    match element:
+        case 1:
+            L = cobre["comprimento"]
+            A = cobre["espessura"] * cobre["largura"]
+        case 2:
+            L = germanio_puro["comprimento"]
+            A = germanio_puro["espessura"] * germanio_puro["largura"]
+        case 3:
+            L = germanio_p["comprimento"]
+            A = germanio_p["espessura"] * germanio_p["largura"]
+        case 4:
+            L = germanio_n["comprimento"]
+            A = germanio_n["espessura"] * germanio_n["largura"]
+
+    x = T
     y = []
     for i in range(len(R)):
-        y.append(V[i]/I[i])
+        y.append((I[i] * L)/(V[i] * A))
 
     g = createGraph()
     plotList_points(g,x,y)
@@ -56,6 +70,17 @@ def graphCondutividade(element:int):
     resistividade = []
     for i in range(len(tensao)):
         resistividade.append(_getCondutividadeOhm(element, tensao[i], corrente[i]))
+    
+    g = createGraph()
+    plotList_points(g,temp,resistividade)
+    graphGrid(g)
+    return g
+
+def graphResistividade(element:int):
+    _, _, resistenciaTemp, temp, tensao, corrente = _getData(element)
+    resistividade = []
+    for i in range(len(tensao)):
+        resistividade.append(1/(_getCondutividadeOhm(element, tensao[i], corrente[i])))
     
     g = createGraph()
     plotList_points(g,temp,resistividade)

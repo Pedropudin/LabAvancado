@@ -27,7 +27,9 @@ def printHall():
 def printCondutividade():
     print("O que você quer sobre o experimento da Condutividade?")
     print("1 - Ver resistências dos materiais")
-    print("2 - Ver resistividade em função da temperatura")
+    print("2 - Ver condutividade em função da temperatura")
+    print("3 - Ver resistividade em função da temperatura")
+    print("4 - Salvar condutividade")
     x = int(input())
     return x
 
@@ -70,24 +72,16 @@ def chooseElement(exp:int) -> int:
 def hall(task:int):
     match task:
         case 1:
-            print("Esse experimento envolve múltiplos elementos, qual você gostaria de analisar?")
-            ele = chooseElement(2)
-            g = graphHall(ele)
-            graphTitle(g,f"Efeito Hall - {elementsDictHall[ele]}")
-            showGraph()
-            clearGraph()
+            for i in range(1,5):
+                g = graphHall(i)
+                graphTitle(g,f"Efeito Hall - {elementsDictHall[i]}")
+                showGraph()
         case 2:
-            print("Esse experimento envolve múltiplos elementos, qual você gostaria de analisar?")
-            ele = chooseElement(2)
-            g = graphHall(ele)
-            graphTitle(g,f"Efeito Hall - {elementsDictHall[ele]}")
-            print(f"Qual o nome? (Deixar vazio coloca \"grafico-hall-{elementsDictHall[ele]}.png\")")
-            name = input()
-            if name == "":
-                saveGraph(f"grafico-hall-{elementsDictHall[ele]}.png")
-            else:
-                saveGraph(name)
-            clearGraph()
+            for i in range(1,5):
+                g = graphHall(i)
+                graphTitle(g,f"Efeito Hall - {elementsDictHall[i]}")
+                saveGraph(f"grafico-hall-{elementsDictHall[i]}.png")
+                #clearGraph()
         case 3:
             for i in range(1,5):
                 R,n = hallData(i)
@@ -107,6 +101,17 @@ def condutividade(task:int):
                 g = graphCondutividade(i)
                 graphTitle(g,f"{elementsDictCond[i]}")
                 showGraph()
+        case 3:
+            for i in range(1,5):
+                g = graphResistividade(i)
+                graphTitle(g,f"{elementsDictCond[i]}")
+                showGraph()
+        case 4:
+            for i in range(1,5):
+                g = graphCondutividade(i)
+                graphTitle(g,f"{elementsDictCond[i]}")
+                saveGraph(f"grafico-condutividade-{elementsDictCond[i]}.png")
+                clearGraph()
     return 0
 
 def main():
@@ -128,7 +133,8 @@ def main():
             plotList_points_regression(g,x,y)
             showGraph()
         case 5:
-            a(1)
+            for i in range(1,5):
+                a(i)
 
     return 0
 
