@@ -32,8 +32,7 @@ class ExperimentLight():
         return self.tensao[0]
     
     def getEnergiaMaxima(self):
-        #muito ruim
-        return self.data["tensao"].to_numpy()[0] * constants.e * -1
+        return self.getPotencialParada() * constants.e * -1
     
     def plotCorrenteTensao(self):
         fig, ax = plt.subplots()
@@ -61,34 +60,34 @@ class ExperimentFinal():
         self.led = led
 
     def getPotencialParada_lampada(self):
-        V0 = np.array(len(self.lampada))
+        V0 = np.empty(len(self.lampada))
 
         for i in range(len(self.lampada)):
-            np.append(V0, self.lampada[i].getPotencialParada())
+            V0[i] = self.lampada[i].getPotencialParada()
         
         return V0
     
     def getPotencialParada_led(self):
-        V0 = np.array(len(self.led))
+        V0 = np.empty(len(self.led))
 
         for i in range(len(self.led)):
-            np.append(V0, self.led[i].getPotencialParada())
+            V0[i] = self.led[i].getPotencialParada()
         
         return V0
 
     def getFrequencia_lampada(self):
-        f = np.array((len(self.lampada)))
+        f = np.empty((len(self.lampada)))
 
         for i in range(len(self.lampada)):
-            np.append(f, self.lampada[i].getFrequencia())
+            f[i] = self.lampada[i].getFrequencia()
         
         return f
 
     def getFrequencia_led(self):
-        f = np.array(len(self.led))
+        f = np.empty(len(self.led))
 
         for i in range(len(self.led)):
-            np.append(f, self.led[i].getFrequencia())
+            f[i] = self.led[i].getFrequencia()
         
         return f
     
@@ -98,14 +97,22 @@ class ExperimentFinal():
 
         fig, ax =   plt.subplots()
 
-        print(freq[0])
+        ax.plot(freq,V0, "o")
+        plt.savefig("planckLampada.png")
+
+    def plotPlanck_led(self):
+        freq = self.getFrequencia_led()
+        V0 = self.getPotencialParada_led()
+
+        fig, ax =   plt.subplots()
 
         ax.plot(freq,V0, "o")
-        plt.show()
+        plt.savefig("planckLed.png")
 
 amarelo = ExperimentLight("correnteTensao-Amarelo.csv", 600e-9)
 verde = ExperimentLight("correnteTensao-Verde.csv", 546e-9)
-azulClaro = ExperimentLight("correnteTensao-AzulClaro.csv", 506e-9)
+azulClaro = ExperimentLight("correnteTensao-AzulClaro.csv", 503e-9)
 roxo = ExperimentLight("correnteTensao-Roxo.csv",445e-9)
+violeta = ExperimentLight("correnteTensao-Violeta.csv",412e-9)
 
-exp = ExperimentFinal([amarelo,verde],[])
+exp = ExperimentFinal([azulClaro,verde,amarelo,roxo,violeta],[])
