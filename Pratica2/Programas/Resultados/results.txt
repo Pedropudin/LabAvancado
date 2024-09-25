@@ -1,0 +1,7 @@
+# Constante de Planck
+
+Real: 6.626e-34
+Obtido pela lâmpada: -6.189e-34 ± 8.43e-35 
+Obtido pelo led: 0.000e+00 ± 0.00e+00
+ɸ Coletor Lâmpada: 1.586
+ɸ Coletor Led: -1.398
