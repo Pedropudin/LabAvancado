@@ -2,14 +2,18 @@ from scipy import constants, stats
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import math as mt
+
+caminhoResultados = "Resultados/"
 
 class ExperimentLight():
-    def __init__(self, nomeArquivo, comprimento:float) -> None:
+    def __init__(self, nomeArquivo, comprimento:float, color) -> None:
         self.l = comprimento
         self.f = constants.c/comprimento
         self.data = pd.read_csv("Dados/" + nomeArquivo)
         self.tensao = self.data["tensao"].to_numpy()
         self.corrente = self.data["corrente"].to_numpy()
+        self.color = color
 
         return
 
@@ -34,17 +38,20 @@ class ExperimentLight():
     def getEnergiaMaxima(self):
         return self.getPotencialParada() * constants.e * -1
     
-    def plotCorrenteTensao(self):
+    def getVelocidadeMaxima(self):
+        V0 = self.getPotencialParada()
+        return mt.sqrt(abs(2 * constants.e * V0 / constants.m_e))
+    
+    def plotCorrenteTensao(self,emissor):
         fig, ax = plt.subplots()
 
         ax.plot(self.tensao,self.corrente,'o')
-        ax.set_title("Corrente fotoelétrica em função do Potencial") # talvez meio grande
         ax.set_xlabel("Potencial (V)")
-        ax.set_ylabel("Corrente (A.10^(-11))") # escrever isso melhor
-        plt.show()
+        ax.set_ylabel("Corrente (A)") # escrever isso melhor
+        plt.savefig(caminhoResultados + f"{self.color}-{emissor}.png")
         return
     
-    def plotPotencialParada(self, nPontos: int):
+    def plotPotencialParada(self, nPontos: int, emissor):
         fig = plt.subplot()
         x = self.tensao[0:nPontos]
         y = self.corrente[0:nPontos]
@@ -52,7 +59,8 @@ class ExperimentLight():
         fig.plot(x, y,'o')
         fig.set_yscale("log")
 
-        plt.show()
+        plt.savefig(caminhoResultados + f"{self.color}-{emissor}.png")
+        return 
 
 class ExperimentFinal():
     def __init__(self,lampadaMercurio:list[ExperimentLight], led:list[ExperimentLight]) -> None:
@@ -91,14 +99,39 @@ class ExperimentFinal():
         
         return f
     
+    def getVelocidade_lampada(self):
+        v = np.empty(len(self.lampada))
+
+        for i in range(len(self.lampada)):
+            v[i] = self.lampada[i].getVelocidadeMaxima()
+        
+        return v
+    
+    def getVelocidade_led(self):
+        v = np.empty(len(self.led))
+
+        for i in range(len(self.led)):
+            v[i] = self.led[i].getVelocidadeMaxima()
+        
+        return v
+    
     def plotPlanck_lampada(self):
         freq = self.getFrequencia_lampada()
         V0 = self.getPotencialParada_lampada()
 
         fig, ax =   plt.subplots()
 
-        ax.plot(freq,V0, "o")
-        plt.savefig("planckLampada.png")
+        for light in self.lampada:
+            ax.plot(light.getFrequencia(),light.getPotencialParada()*constants.e,"o",color=light.color,label=light.color)
+
+        c_ang, c_lin, r, p, desvio = stats.linregress(freq,V0*constants.e)
+
+        ax.plot([freq[0],freq[-1]],[c_lin+freq[0]*c_ang, c_lin+freq[-1]*c_ang])
+
+        ax.set_xlabel("Frequência (m)")
+        ax.set_ylabel("Energia ($V_0\cdot e$)")
+        plt.savefig(caminhoResultados + "energia_Frequencia-lampada.png")
+        return c_ang, c_lin, desvio
 
     def plotPlanck_led(self):
         freq = self.getFrequencia_led()
@@ -106,13 +139,51 @@ class ExperimentFinal():
 
         fig, ax =   plt.subplots()
 
-        ax.plot(freq,V0, "o")
-        plt.savefig("planckLed.png")
+        for light in self.led:
+            ax.plot(light.getFrequencia(),light.getPotencialParada()*constants.e,"o",color=light.color,label=light.color)
 
-amarelo = ExperimentLight("correnteTensao-Amarelo.csv", 600e-9)
-verde = ExperimentLight("correnteTensao-Verde.csv", 546e-9)
-azulClaro = ExperimentLight("correnteTensao-AzulClaro.csv", 503e-9)
-roxo = ExperimentLight("correnteTensao-Roxo.csv",445e-9)
-violeta = ExperimentLight("correnteTensao-Violeta.csv",412e-9)
+        c_ang, c_lin, r, p, desvio = stats.linregress(freq,V0*constants.e)
 
-exp = ExperimentFinal([azulClaro,verde,amarelo,roxo,violeta],[])
+        ax.plot([freq[0],freq[-1]],[c_lin+freq[0]*c_ang, c_lin+freq[-1]*c_ang],label=f"{c_lin:.2e} + x*{c_ang:.2e}",color="black")
+
+        ax.set_xlabel("Frequência (m)")
+        ax.set_ylabel("Energia ($V_0\cdot e$)")
+        plt.savefig(caminhoResultados + "energia_Frequencia-led.png")
+        return c_ang, c_lin, desvio
+    
+    def plotVelocidade_lampada(self):
+        fig, ax =   plt.subplots()
+
+        for light in self.lampada:
+            ax.plot(light.getFrequencia(),light.getVelocidadeMaxima(),"o",color=light.color,label=light.color)
+
+        ax.set_xlabel("Frequência (m)")
+        ax.set_ylabel("Velocidade Máxima")
+        plt.savefig(caminhoResultados + "velocidade-lampada.png")
+        return
+    
+    def plotVelocidade_led(self):
+        fig, ax =   plt.subplots()
+
+        for light in self.led:
+            ax.plot(light.getFrequencia(),light.getVelocidadeMaxima(),"o",color=light.color,label=light.color)
+
+        ax.set_xlabel("Frequência (m)")
+        ax.set_ylabel("Velocidade Máxima")
+        plt.savefig(caminhoResultados + "velocidade-led.png")
+        return
+
+amarelo = ExperimentLight("correnteTensao-Amarelo.csv", 600e-9, "yellow")
+verde = ExperimentLight("correnteTensao-Verde.csv", 546e-9, "green")
+azulClaro = ExperimentLight("correnteTensao-AzulClaro.csv", 503e-9, "lightblue")
+roxo = ExperimentLight("correnteTensao-Roxo.csv",445e-9, "purple")
+violeta = ExperimentLight("correnteTensao-Violeta.csv",412e-9, "violet")
+
+led1 = ExperimentLight("led-1.csv", 500e-9, "black")
+led2 = ExperimentLight("led-1.csv", 600e-9, "black")
+led3 = ExperimentLight("led-1.csv", 700e-9, "black")
+
+lampada = [amarelo, verde, azulClaro, roxo, violeta]
+led = [led1, led2, led3]
+
+exp = ExperimentFinal(lampada,led)
