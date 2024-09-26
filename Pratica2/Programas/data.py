@@ -53,7 +53,7 @@ class ExperimentLight():
         return self.data
     
     def getPotencialParada(self):
-        return self.tensao[0]
+        return abs(self.tensao[0])
     
     def getEnergiaMaxima(self):
         return self.getPotencialParada() * constants.e * -1
@@ -146,12 +146,12 @@ class ExperimentFinal():
 
         c_ang, c_lin, r, p, desvio = stats.linregress(freq,V0*constants.e)
 
-        ax.plot([freq[0],freq[-1]],[c_lin+freq[0]*c_ang, c_lin+freq[-1]*c_ang])
+        ax.plot([min(freq),max(freq)],[c_lin+min(freq)*c_ang, c_lin+max(freq)*c_ang])
 
-        ax.set_xlabel("Frequência (m)")
+        ax.set_xlabel("Frequência (Hz)")
         ax.set_ylabel("Energia ($V_0\cdot e$)")
         plt.savefig(caminhoResultados + "energia_Frequencia-lampada.png")
-        return c_ang, c_lin, desvio
+        return c_ang, abs(c_lin), desvio
 
     def plotPlanck_led(self):
         freq = self.getFrequencia_led()
@@ -164,12 +164,12 @@ class ExperimentFinal():
 
         c_ang, c_lin, r, p, desvio = stats.linregress(freq,V0*constants.e)
 
-        ax.plot([freq[0],freq[-1]],[c_lin+freq[0]*c_ang, c_lin+freq[-1]*c_ang],label=f"{c_lin:.2e} + x*{c_ang:.2e}",color="black")
+        ax.plot([min(freq),max(freq)],[c_lin+min(freq)*c_ang, c_lin+max(freq)*c_ang],label=f"{c_lin:.2e} + x*{c_ang:.2e}",color="black")
 
-        ax.set_xlabel("Frequência (m)")
+        ax.set_xlabel("Frequência (Hz)")
         ax.set_ylabel("Energia ($V_0\cdot e$)")
         plt.savefig(caminhoResultados + "energia_Frequencia-led.png")
-        return c_ang, c_lin, desvio
+        return c_ang, abs(c_lin), desvio
     
     def plotVelocidade_lampada(self):
         fig, ax =   plt.subplots()
@@ -204,11 +204,15 @@ azulClaro = ExperimentLight("correnteTensao-AzulClaro.csv", 503e-9, "lightblue")
 roxo = ExperimentLight("correnteTensao-Roxo.csv",445e-9, "purple")
 violeta = ExperimentLight("correnteTensao-Violeta.csv",412e-9, "violet")
 
-led1 = ExperimentLight("led-1.csv", 500e-9, "black")
-led2 = ExperimentLight("led-1.csv", 600e-9, "black")
-led3 = ExperimentLight("led-1.csv", 700e-9, "black")
+led1 = ExperimentLight("led-1.csv", 374.22e-9, "violet")
+led2 = ExperimentLight("led-2.csv", 467.02e-9, "blue")
+led3 = ExperimentLight("led-3.csv", 520e-9, "green")
+led4 = ExperimentLight("led-4.csv", 656e-9, "darkred")
+led5 = ExperimentLight("led-5.csv", 595e-9, "gold")
+led6 = ExperimentLight("led-6.csv", 628e-9, "salmon")
+led7 = ExperimentLight("led-7.csv", 638.7e-9, "red")
 
 lampada = [amarelo, verde, azulClaro, roxo, violeta]
-led = [led1, led2, led3]
+led = [led1, led2, led3, led4, led5, led6, led7]
 
 exp = ExperimentFinal(lampada,led)

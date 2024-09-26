@@ -23,12 +23,13 @@ exp.plotVelocidade_led()
 with open("Resultados/results.txt", "w") as file:
 
 # Constante de Planck
-    file.write("# Constante de Planck\n\n")
+    file.write("# Constante de Planck\n")
     file.write(f"Real: {constants.h:.3e}\n")
     file.write(f"Obtido pela lâmpada: {h_lamp:.3e} \u00B1 {erro_lamp:.2e} \n")
     file.write(f"Obtido pelo led: {h_led:.3e} \u00B1 {erro_led:.2e}\n")
     
 # Função Trabalho
+    file.write("\n# Função Trabalho\n")
     file.write(f"\N{latin small letter phi} Coletor Lâmpada: {phi_lamp/constants.e:.3f}\n")
     file.write(f"\N{latin small letter phi} Coletor Led: {phi_led/constants.e:.3f}")
 
