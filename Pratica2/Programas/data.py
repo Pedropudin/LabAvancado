@@ -6,6 +6,26 @@ import math as mt
 
 caminhoResultados = "Resultados/"
 
+def getCompLed(file):
+
+    with open(file, "r") as f:
+        for i in range(17):
+            f.readline()
+        data = f.readlines()
+        
+        comprimento = np.empty(len(data)-2)
+        intensity = np.empty(len(data)-2)
+
+        for i in range(len(data)-2):
+            d = data[i].split("\t")
+
+            comprimento[i] = float(d[0].replace(",","."))
+            intensity[i] = float(d[1].replace(",","."))
+        
+        f.close()
+
+    return comprimento, intensity
+
 class ExperimentLight():
     def __init__(self, nomeArquivo, comprimento:float, color) -> None:
         self.l = comprimento
@@ -172,6 +192,11 @@ class ExperimentFinal():
         ax.set_ylabel("Velocidade Máxima")
         plt.savefig(caminhoResultados + "velocidade-led.png")
         return
+
+# x,y = getCompLed("Dados/led4.txt")
+
+# plt.plot(x,y)
+# plt.show()
 
 amarelo = ExperimentLight("correnteTensao-Amarelo.csv", 600e-9, "yellow")
 verde = ExperimentLight("correnteTensao-Verde.csv", 546e-9, "green")
