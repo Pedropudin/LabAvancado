@@ -4,4 +4,6 @@
 *.jpg
 *.png
 *.gif
+*.mp3
+*.mp4
 **/__pycache__/
