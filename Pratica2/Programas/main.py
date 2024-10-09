@@ -2,13 +2,15 @@ from data import *
 
 #========= Pegando Gráficos =========#
 
-#Luzes
+#Lâmpada
 for ele in lampada:
     ele.plotCorrenteTensao("lampada")
 
 #Leds
 for ele in led:
     ele.plotCorrenteTensao("led")
+
+    exp.plotCorrenteTensaoTodos()
 
 # Planck
 h_lamp, phi_lamp, erro_lamp = exp.plotPlanck_lampada()
@@ -17,6 +19,9 @@ h_led, phi_led, erro_led = exp.plotPlanck_led()
 # Velocidade
 exp.plotVelocidade_lampada()
 exp.plotVelocidade_led()
+
+# Função Trabalho
+exp.plotEficienty()
 
 #========= Analisando Valores ========#
 
