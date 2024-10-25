@@ -7,4 +7,6 @@
 *.gif
 *.mp3
 *.mp4
+*.xcf
+*.zip
 **/__pycache__/
