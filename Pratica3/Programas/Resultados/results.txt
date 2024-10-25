@@ -1,0 +1,7 @@
+Valor Tabelado: 11604.518121550082
+Temperatura: -0.5	Razão: 12445.469 +/- 117.749 	Erro Relativo: 7.247%	Condizente: Não
+Temperatura: 8.6	Razão: 11694.482 +/- 53.214 	Erro Relativo: 0.775%	Condizente: Sim
+Temperatura: 24.5	Razão: 12117.223 +/- 181.797 	Erro Relativo: 4.418%	Condizente: Sim
+Temperatura: 38.7	Razão: 11760.350 +/- 62.124 	Erro Relativo: 1.343%	Condizente: Sim
+Temperatura: 80.0	Razão: 11747.640 +/- 141.190 	Erro Relativo: 1.233%	Condizente: Sim
+Media: (1.195+/-0.005)e+04
