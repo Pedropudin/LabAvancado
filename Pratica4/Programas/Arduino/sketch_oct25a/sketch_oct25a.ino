@@ -15,7 +15,11 @@ void loop() {
   volt = (pot*50.0)/1023;
   Serial.print(i);
   Serial.print(",");
-  Serial.println(volt,3);
+  Serial.println(volt,5);
   i ++;
-  delay(100);
+  delay(200);
+  if(i > 2047)
+  {
+    exit(0);
+  }
 }
