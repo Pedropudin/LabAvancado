@@ -1,23 +1,26 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from functions import *
-from scipy import stats
-data = pd.read_csv("Dados/ressonancia+sonda_hall.csv")
+from tools import *
 
-x = data["campo Magnético (mT)"]*1e-3
-y = data["frequencia (MHz)"]*1e6
-B = np.array([campoHell(6.8e-2,320,x) for x in data["corrente (A)"]])
-x = (B/2)
-reg = stats.linregress(x,y)
-mub = constants.hbar*constants.e/(2*constants.m_e)
-g = reg[0]*constants.h/mub
+data = pd.read_csv("Dados/campo-corrente-frequencia.csv")
 
-plt.plot(x,y)
+campo = data["campo Magnético (mT)"]*1e-3
+corrente = data["corrente (A)"]
+frequencia = data["frequencia (MHz)"]*1e6
 
-plt.show() 
+campoCalculado = campoHell(corrente/2) # Passa para mT
 
-#print(B/2)
-print('g: ',g)
-print(reg[0]*constants.h/mub,reg[4]*constants.h/mub)
-print(campoHell(6.8e-2,320,1))
+regCalculado = stats.linregress(campoCalculado,frequencia)
+regMedido = stats.linregress(campo,frequencia)
+
+gCalculado = constanteG(regCalculado[0])
+gMedido = constanteG(regMedido[0])
+
+plt.plot(campo,frequencia,label="Sonda Hall")
+plt.plot(campoCalculado,frequencia,label="Equação Bobina")
+plt.legend()
+plt.grid()
+plt.savefig("Resultados/" + "campo-frequencia.png")
+# plt.show()
+plt.clf()
+
+print(f"g com sonda Hall: {gMedido:.3f}\ng com equação da Bobina: {gCalculado:.3f}")
+print(f"g esperado: {g:.3f}")
