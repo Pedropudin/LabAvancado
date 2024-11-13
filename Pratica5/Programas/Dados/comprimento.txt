@@ -1,0 +1,4 @@
+escala = 5V para x e y
+Ressonância = 6 quadrados
+Tela = 10 quadrados
+Corrente = 0.263 A
