@@ -2,3 +2,8 @@ escala = 5V para x e y
 Ressonância = 6 quadrados
 Tela = 10 quadrados
 Corrente = 0.263 A
+
+--- jeito do professor
+
+corrente direita = 0.791 A
+corrente esquerda = 0.702 A
