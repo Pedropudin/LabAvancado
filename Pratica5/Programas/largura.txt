@@ -1,0 +1,16 @@
+# TEK4
+Altura total = 155 pixels 
+Meia altura = 77 pixels
+Largura na meia altura = 95 pixels
+
+# TEK5
+Altura total = 370 pixels
+Meia altura = 185 pixels
+Largura na meia altura = 82 pixels
+
+# TEK6
+Altura total = 300 pixels
+Meia altura 150 pixels
+Largura na meia altura = 40 pixels
+
+pixels/square = 50 pixels
